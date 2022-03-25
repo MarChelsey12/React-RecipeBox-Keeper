@@ -104,7 +104,7 @@ export default function RegisterForm({user}) {
             helperText={formik.touched.password && formik.errors.password}
             // {...formik.getFieldProps('password')}
         />
-        <button type="submit">Edit Profile</button>
+        <Button type="submit">Edit Profile</Button>
         <Button color="error" onClick={()=>handleDelete()} sx={{my:1}}>Delete Profile?</Button>
 
     </form>

@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <Paper sx={{m:5, p:5, justifyContent:"center", backgroundColor: theme.palette.background.paper, backgroundImage:theme.palette.background.paper}}>
         <>
-          <Typography variant="h4">RecipeBox Keeper</Typography>
-          <Typography variant="body2">Content is coming soon!</Typography>
+          <Typography variant="h4">Add a Recipe!</Typography>
+          <AddRecipeForm />
         </>
         
     </Paper>

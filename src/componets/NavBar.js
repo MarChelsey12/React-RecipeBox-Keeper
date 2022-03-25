@@ -160,7 +160,12 @@ export default function MenuAppBar() {
                 {['Add New Recipe', 'Create New RecipeBox'].map((text, index) => (
                   <ListItem button key={text}>
                     <ListItemIcon>
-                      {index % 2 === 0 ? <PlaylistAddCircleIcon /> : <AddBoxIcon />}
+                      {index % 2 === 0 ? 
+                      <IconButton>
+                        <Link to='/create_recipe' style={{textDecoration:"none"}}>
+                        <PlaylistAddCircleIcon />
+                        </Link>
+                      </IconButton> : <AddBoxIcon />}
                     </ListItemIcon>
                     <ListItemText primary={text} />
                   </ListItem>
