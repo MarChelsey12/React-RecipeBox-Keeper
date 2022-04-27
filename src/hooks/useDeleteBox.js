@@ -4,7 +4,7 @@ import { deleteCollection } from '../api/apiCollection'
 import { AppContext } from '../context/AppContext'
 import { useNavigate } from 'react-router-dom';
 
-export default function useDeleteBox() {
+export default function useDeleteBox( collection ) {
     const {user, setAlert} = useContext(AppContext)
     const navigate = useNavigate()
 
@@ -29,5 +29,5 @@ export default function useDeleteBox() {
             return ()=>{source.cancel()}
         },[collection, setAlert, user.token, navigate]
     )
-  
+
 }

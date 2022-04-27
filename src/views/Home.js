@@ -1,7 +1,7 @@
 import React from 'react';
 import {Paper, Typography} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
-import AddRecipeForm from '../forms/AddRecipeForm';
+
 
 
 export default function Home() {
@@ -13,7 +13,6 @@ export default function Home() {
           <Typography variant="h4">RecipeBox Keeper</Typography>
           <Typography variant="body2">Content is coming soon!</Typography>
         </>
-        
     </Paper>
   )
 }

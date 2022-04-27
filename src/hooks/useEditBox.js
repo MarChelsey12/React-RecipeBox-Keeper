@@ -4,7 +4,7 @@ import { putCollection } from '../api/apiCollection'
 import { AppContext } from '../context/AppContext'
 import { useNavigate } from 'react-router-dom';
 
-export default function useEditBox() {
+export default function useEditBox( collection ) {
     const {user, setAlert} =useContext(AppContext)
     const navigate = useNavigate()
 
@@ -29,5 +29,5 @@ export default function useEditBox() {
             return ()=>{source.cancel()}
         },[collection, setAlert,user.token, navigate]
     )
-  
+
 }

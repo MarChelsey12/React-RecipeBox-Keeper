@@ -19,6 +19,7 @@ import Register from './views/Register';
 import EditProfile from './views/EditProfile';
 import NewRecipe from './views/NewRecipe';
 
+
 function App() {
   return (
     <>
@@ -31,8 +32,7 @@ function App() {
           <Route path="/edit_profile" element={<EditProfile/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/create_recipe" element={<NewRecipe/>}/>
-        </Routes> 
-
+        </Routes>
       </Box>
     </>
   );

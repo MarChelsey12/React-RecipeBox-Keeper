@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Yup from "yup";
-import { Formik, Form, Field, FieldArray, useField, ErrorMessage} from 'formik';
+import { Formik, Form, Field, FieldArray, useField} from 'formik';
 import Button from '../componets/Button';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -9,106 +9,88 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ClearIcon from '@mui/icons-material/Clear';
 
-
-// const myErrorText =() => {
-//     const [field, meta] = useField(placeholder, ...props);
-//     const errorText = meta.error && meta.touched ? meta.error : '';
-
-//     return(
-//         <TextField {...field} 
-//           placeholder={placeholder} 
-//           helperText={errorText} 
-//           error={!!errorText} 
-//         />
-//     )
-// }
-function AddRecipeForm() {
+export default function AddRecipeForm() {
     const initialValues={
         title:'',
-        ingredients:[{
-            qty:'',
-            unit:'',
-            element:''
-        }],
+        ingredients:[{ qty:'', unit:'', element:'' }],
         instructions:'',
         collection_name:'',
         }
     const validationSchema= Yup.object({
-        title: Yup.string()
-            .required('Required'),
+        title: Yup.string().required('Required'),
         ingredients: Yup.array().of(Yup.object({
             qty: Yup.string().required('Required'),
+            unit: Yup.string(),
             element: Yup.string().required('Required')
-                })
-            ),
-        instructions: Yup.string()
-            .required('Required'),
-        collection_name: Yup.string()
-        .required('Required')
+                })),
+        instructions: Yup.string().required('Required'),
+        collection_name: Yup.string().required('Required')
         })
-    const onSubmit = values => console.log('Form data ', values)
+    const MyTextField = ({placeholder, ...props}) => {
+            const [field, meta] = useField(props);
+            const errorText = meta.error && meta.touched ? meta.error : '';
+            return <TextField placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+        };
+    const onSubmit = data => console.log('Form data ', data);
+
     return(
-        <Formik 
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        >
-          {({ values, errors }) => (
-            <form>
-                <Field placeholder="Title" name="title" type="input" as={TextField} sx={{width:'100%', p:1}} />
-                
-                  <FieldArray name="ingredients" sx={{width:'100%'}} > 
-                    {(arrayHelpers) => (
-                    <div>
-                        {values.ingredients.map((qty, unit, element, index) => {                          
-                            return (
-                            <div key={index} sx={{width:'100%'}}>    
-                                <Field placeholder="QTY" name={`ingredients.${index}.qty`} type="input" as={TextField} sx={{p:1}} />
-                                
-                                <Field placeholder="TBSP" name={`ingredients.${index}.unit`} type="input" as={TextField} sx={{p:1}} />
-                                
-                                <Field placeholder="Ingredient" name={`ingredients.${index}.element`} type="input" as={TextField} sx={{p:1}} />
-                                
+        <div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {({ values, errors }) => (
+            <Form>
+              <MyTextField placeholder="Title" name="title" type="input" sx={{width:'100%', p:1}} />
+                <div>
+                <FieldArray name="ingredients" sx={{width:'100%'}} >
+                  {(arrayHelpers) => (
+                  <div>
+                    {values.ingredients.map((ingredient, index) => {
+                        return (
+                            <div key={index}>
+                                <MyTextField placeholder="qty" name={`ingredients.${index}.qty`} />
+                                <MyTextField placeholder="unit" name={`ingredients.${index}.unit`} />
+                                <MyTextField placeholder="element" name={`ingredients.${index}.element`} />
                                 <IconButton sx={{mt:2}} onClick={() => arrayHelpers.remove(index)}>
                                 <ClearIcon />
                                 </IconButton>
                             </div>
-                            );
-                        })}
+                        );
+                    })}
                         <div>
-                        <IconButton sx={{p:1}}
-                            onClick={() => 
-                            arrayHelpers.push({
-                                QTY: '', 
-                                unit: '', 
-                                element: ''
-                            })
-                            }
-                        >
-                            <AddCircleIcon />
-                        </IconButton>
+                          <IconButton sx={{p:1}}
+                            onClick={ () => arrayHelpers.push({ qty: '', unit: '', element: '' }) }
+                          >
+                            <AddCircleIcon /> add ingredients
+                          </IconButton>
                         </div>
-                    </div>)}
-                    </FieldArray>
-                    <Field placeholder="Cooking Directions" name="instructions" type="input" as={TextField} sx={{width:'100%', p:1}} />
-                    
+                  </div>
+                  )}
+                </FieldArray>
+                </div>
+              <MyTextField placeholder="Cooking Directions" name="instructions" type="input" as={TextField} sx={{width:'100%', p:1}} />
+                <div>
+                  <Field placeholder="RecipeBox" name="collection_name" type="input" as={Select} sx={{m:1}}>
+                    <MenuItem/>
+                    <MenuItem/>
+                    <MenuItem/>
+                  </Field>
+                </div>
+                <div>
+                    <Button type="submit" sx={{width:'100%', m:1}}>Submit</Button>
+                </div>
+
+                <pre>
+                    {JSON.stringify(values, null, 2)}
                     <div>
-                        <Field placeholder="RecipeBox" name="collection_name" type="input" as={Select} sx={{m:1}}>
-                            <MenuItem/>
-                            <MenuItem/>
-                            <MenuItem/>
-                        </Field>
+                    {JSON.stringify(errors, null, 2)}
                     </div>
-                    <div>
-                        <Button type="submit" sx={{width:'100%', m:1}}>Submit</Button>
-                    </div>
-                
-                {/* <pre>{JSON.stringify(values, null, 2)}</pre>
-                <pre>{JSON.stringify(errors, null, 2)}</pre> */}
-            </form>
+                </pre>
+            </Form>
             )}
-        </Formik>
-            
+          </Formik>
+        </div>
     )
-}
-export default AddRecipeForm
+};
